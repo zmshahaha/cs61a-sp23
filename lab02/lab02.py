@@ -32,6 +32,7 @@ def composite_identity(f, g):
     False
     """
     "*** YOUR CODE HERE ***"
+    return lambda x : composer(f,g)(x) == composer(g,f)(x)
 
 
 def count_cond(condition):
@@ -62,6 +63,13 @@ def count_cond(condition):
     8
     """
     "*** YOUR CODE HERE ***"
+    def counter(x):
+        res = 0
+        for i in range(1, x+1):
+            if condition(x, i):
+                res += 1
+        return res
+    return counter
 
 
 def multiple(a, b):
@@ -73,6 +81,15 @@ def multiple(a, b):
     42
     """
     "*** YOUR CODE HERE ***"
+    product = a * b
+    # Find the minimum and maximum of the two numbers
+    minimum = min(a, b)
+    maximum = max(a, b)
+    # Start with the maximum number and check if it is divisible by the minimum number
+    lcm = maximum
+    while lcm % minimum != 0:
+        lcm += maximum
+    return lcm
 
 
 def cycle(f1, f2, f3):
@@ -102,3 +119,16 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
+    def ret_fun(n):
+        def cycle_fun(x):
+            res = x
+            for i in range(1, n+1):
+                if i%3 == 0:
+                    res = f3(res)
+                elif i%3 == 1:
+                    res = f1(res)
+                elif i%3 == 2:
+                    res = f2(res)
+            return res
+        return cycle_fun
+    return ret_fun
