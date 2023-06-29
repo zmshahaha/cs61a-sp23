@@ -32,6 +32,10 @@ def product(n, term):
     162
     """
     "*** YOUR CODE HERE ***"
+    res = 1
+    for i in range(1, n+1):
+        res *= term(i)
+    return res
 
 
 def accumulate(merger, start, n, term):
@@ -59,6 +63,9 @@ def accumulate(merger, start, n, term):
     16
     """
     "*** YOUR CODE HERE ***"
+    for i in range(1, n+1):
+        start = merger(start, term(i))
+    return start
 
 
 def summation_using_accumulate(n, term):
@@ -75,7 +82,7 @@ def summation_using_accumulate(n, term):
     >>> [type(x).__name__ for x in ast.parse(inspect.getsource(summation_using_accumulate)).body[0].body]
     ['Expr', 'Return']
     """
-    "*** YOUR CODE HERE ***"
+    return accumulate(add, 0, n, term)
 
 
 def product_using_accumulate(n, term):
@@ -92,7 +99,7 @@ def product_using_accumulate(n, term):
     >>> [type(x).__name__ for x in ast.parse(inspect.getsource(product_using_accumulate)).body[0].body]
     ['Expr', 'Return']
     """
-    "*** YOUR CODE HERE ***"
+    return accumulate(mul, 1, n, term)
 
 
 def funception(func1, start):
@@ -121,6 +128,17 @@ def funception(func1, start):
     >>> func2_6(4)    # Returns None since start < 0
     """
     "*** YOUR CODE HERE ***"
+    def ret_func(stop):
+        if start < 0:
+            return None
+        elif start >= stop:
+            return func1(start)
+        else:
+            res = 1
+            for i in range(start, stop):
+                res *= func1(i)
+            return res
+    return ret_func
 
 
 def mul_by_num(num):
@@ -134,7 +152,7 @@ def mul_by_num(num):
     >>> y(-4)
     -8
     """
-    return ______
+    return lambda x: x*num
 
 
 def mod_maker():
@@ -148,7 +166,7 @@ def mod_maker():
     >>> mod(8,4) # 8 % 4
     True
     """
-    return ______
+    return lambda x, y: x%y or True
 
 
 def add_results(f1, f2):
@@ -171,7 +189,7 @@ def add_results(f1, f2):
     >>> a3(4)
     44
     """
-    return ______
+    return lambda x: f1(x) + f2(x)
 
 
 def lambda_math_syntax_check():
